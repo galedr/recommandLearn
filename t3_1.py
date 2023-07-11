@@ -1,4 +1,5 @@
 import json
+import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -11,15 +12,18 @@ features = ['title', 'dc_c1', 'dc_c2', 'class1', 'class2', 'keyword', 'sprice', 
 data = [[goods[field] for field in features] for goods in goods_data]
 
 # 定義特徵權重
-feature_weights = [1, 1, 5, 1, 1, 1, 1, 1]  # 權重值請根據需求自行調整，轉為整數
+feature_weights = [1, 1, 5, 1, 1, 1, 1, 1]  # 權重值請根據需求自行調整
 
 # 計算特徵向量
 vectors = []
 for item in data:
-    vector = []
-    for i in range(len(item)):
-        vector.append(str(item[i]) * feature_weights[i])  # 轉換為字符串類型
-    vectors.append(' '.join(vector))  # 將特徵向量轉換為空格分隔的字符串
+    weighted_item = []
+    for i, value in enumerate(item):
+        if isinstance(value, str):  # 如果值是字串，直接加入權重調整後的特徵向量
+            weighted_item.append(value)
+        else:  # 如果值是數字，進行權重調整後再加入特徵向量
+            weighted_item.append(value * feature_weights[i])
+    vectors.append(' '.join([str(val) for val in weighted_item]))  # 將特徵向量轉換為空格分隔的字符串
 
 # 使用 TfidfVectorizer 轉換特徵向量
 vectorizer = TfidfVectorizer()
