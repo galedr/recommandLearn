@@ -11,7 +11,7 @@ features = ['title', 'dc_c1', 'dc_c2', 'class1', 'class2', 'keyword', 'sprice', 
 data = [[goods[field] for field in features] for goods in goods_data]
 
 # 定義特徵權重
-feature_weights = [1, 1, 5, 1, 1, 1, 1, 1]  # 權重值請根據需求自行調整，轉為整數
+feature_weights = [5, 1, 1, 1, 1, 1, 1, 1]  # 權重值請根據需求自行調整，轉為整數
 
 # 計算特徵向量
 vectors = []
